@@ -2,7 +2,7 @@
 * @Author: Groza Sergiu
 * @Date:   2014-04-18 11:02:49
 * @Last Modified by:   Groza Sergiu
-* @Last Modified time: 2014-05-01 00:57:34
+* @Last Modified time: 2014-05-07 03:16:54
 */
 
 (function(window,undefined){
@@ -10,12 +10,12 @@
 
   var Ball = function(options){
     var configs = options || {};
+    this.log_prefix = configs["log-prefix"] || "Ball | ";
+    this.verbosity = configs["verbosity"] || Arkanoid.Logger.DEBUG;
   };
 
-  var BallPrototype = Object.defineProperties({},{
-    
-  });
+  Ball.prototype = Object.create(Arkanoid.AbstractLogger);
+  Object.defineProperties(Ball.prototype,{});
 
-  Ball.prototype = BallPrototype;
   Arkanoid.Ball = Ball;
 })(window,undefined);
