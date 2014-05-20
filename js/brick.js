@@ -2,7 +2,7 @@
 * @Author: Groza Sergiu
 * @Date:   2014-04-18 11:03:16
 * @Last Modified by:   Groza Sergiu
-* @Last Modified time: 2014-05-07 12:07:34
+* @Last Modified time: 2014-05-20 00:41:41
 */
 
 (function(window,undefined){
@@ -20,16 +20,16 @@
 
   Brick.TYPES = ["W","O","C","G","R","B","V","Y","I","S"];
   Brick.COLORS = {
-    "W": "white",
-    "O": "orange",
-    "C": "cyan",
-    "G": "green",
-    "R": "red",
-    "B": "blue",
-    "V": "violet",
-    "Y": "yellow",
-    "I": "gold", // to set
-    "S": "gray"
+    "W": "#FFFFFF",
+    "O": "#FF4000",
+    "C": "#00BFFF",
+    "G": "#04B404",
+    "R": "#B40404",
+    "B": "#08088A",
+    "V": "#A901DB",
+    "Y": "#FFFF00",
+    "I": "#DBA901",
+    "S": "#848484"
   }
   
   Brick.prototype = Object.create(Arkanoid.AbstractLogger);
@@ -46,6 +46,7 @@
           this.health = 1;
           this.points = 50 + Brick.TYPES.indexOf(this.type) * 10;
         }
+        return this;
       }
     },
 

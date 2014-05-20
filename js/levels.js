@@ -17,7 +17,7 @@
   Arkanoid.Levels = [
     {
       level: 1,
-      background: "octagons.png",
+      background: "img/hexagon.png",
       bricks: [
         "             ",
         "             ",
