@@ -2,7 +2,7 @@
 * @Author: Groza Sergiu
 * @Date:   2014-04-18 10:50:42
 * @Last Modified by:   Groza Sergiu
-* @Last Modified time: 2014-05-21 02:37:42
+* @Last Modified time: 2014-05-21 02:52:38
 */
 
 (function(window,undefined){
@@ -157,6 +157,7 @@
         var rows = this.levelData.bricks.length;
         var brickWidth = Math.ceil((this.canvas.width-16) / this.levelData.bricks[0].length);
         var brickHeight = Math.ceil(brickWidth / 2);
+        this.bricks = [];
         for(var i=0; i < rows; i++){
           row = this.levelData.bricks[i].split("");
           for(var j=0; j < row.length; j++){

@@ -33,8 +33,9 @@
     },
     {
       level: 2,
-      background: "grass.png",
+      background: "img/grass.png",
       bricks: [
+        "             ",
         "             ",
         "W            ",
         "WO           ",
