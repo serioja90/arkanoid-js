@@ -14,16 +14,13 @@
     <script src="js/game.js" type="text/javascript" charset="utf-8"></script>
   </head>
   <body>
-    <div id="resources" hidden="true">
-      <img id="hexagon-image" src="img/hexagon.png" />
-    </div>
     <center>
       <canvas id="game" style="background: black;"></canvas>
     </center>
     <script type="text/javascript">
       jQuery(function($){
         $(document).ready(function(){
-          window.game = new Arkanoid.Game({canvas: "#game", width: 300, height: 350});
+          window.game = new Arkanoid.Game({canvas: "#game", width: 300, height: 420});
         });
       });
     </script>

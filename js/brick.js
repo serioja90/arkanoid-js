@@ -2,7 +2,7 @@
 * @Author: Groza Sergiu
 * @Date:   2014-04-18 11:03:16
 * @Last Modified by:   Groza Sergiu
-* @Last Modified time: 2014-05-20 00:41:41
+* @Last Modified time: 2014-05-21 02:43:19
 */
 
 (function(window,undefined){
@@ -13,8 +13,13 @@
     this.parent = configs["parent"];
     this.log_prefix = configs["log-prefix"] || "Brick | ";
     this.verbosity = configs["verbosity"] || Arkanoid.Logger.DEBUG;
+    this.x = configs["x"] || 0;
+    this.y = configs["y"] || 0;
+    this.width = configs["width"] || 32;
+    this.height = configs["height"] || 16;
     this.type = configs["type"];
     this.level = configs["level"];
+    this.canvas = configs["canvas"];
     this.init();
   };
 
@@ -65,7 +70,7 @@
     level: {
       get: function(){ return this._level; },
       set: function(level){
-        if(level && !isNaN(Number(level))){
+        if(!isNaN(Number(level))){
           this._level = Number(level);
         }else{
           throw new Error("Invalid level: '" + level + "'");
@@ -77,7 +82,7 @@
     points: {
       get: function(){ return this._points; },
       set: function(points){
-        if(points && !isNaN(Number(points))){
+        if(!isNaN(Number(points))){
           this._points = Number(points);
         }else{
           throw new Error("Invalid points value: '" + points + "'");
@@ -89,7 +94,7 @@
     health: {
       get: function(){ return this._health; },
       set: function(health){
-        if(health && !isNaN(Number(health))){
+        if(!isNaN(Number(health))){
           this._health = Number(health);
         }else{
           throw new Error("Invalid health value: '" + health + "'");
@@ -108,6 +113,93 @@
     isDestroyed: { writtable: false, configurable: false, enumerable: false,
       value: function(){
         return this.health <= 0;
+      }
+    },
+
+    x: {
+      get: function(){ return this._x; },
+      set: function(x){
+        if(!isNaN(Number(x))){
+          this._x = Math.ceil(x);
+        }else{
+          throw new Error("Invalid x: '" + x + "'");
+        }
+        return this;
+      }
+    },
+
+    y: {
+      get: function(){ return this._y; },
+      set: function(y){
+        if(!isNaN(Number(y))){
+          this._y = Math.ceil(y);
+        }else{
+          throw new Error("Invalid y: '" + y + "'");
+        }
+        return this;
+      }
+    },
+
+    width: {
+      get: function(){ return this._width; },
+      set: function(width){
+        if(!isNaN(Number(width))){
+          this._width = width;
+        }else{
+          throw new Error("Invalid width: + '" + width + "'");
+        }
+        return this;
+      }
+    },
+
+    height: {
+      get: function(){ return this._height; },
+      set: function(height){
+        if(!isNaN(Number(height))){
+          this._height = height;
+        }else{
+          throw new Error("Invalid height: + '" + height + "'");
+        }
+        return this;
+      }
+    },
+
+    canvas: {
+      get: function(){ return this._canvas; },
+      set: function(canvas){
+        if(canvas){
+          if(typeof(canvas) === "string"){
+            var element = $(canvas)[0];
+            if(element){
+              this._canvas = element;
+            }else{
+              throw new Error("Invalid canvas: '" + canvas + "'");
+            }
+          }else if(typeof(canvas) === "object"){
+            this._canvas = canvas;
+          }else{
+            throw new Error("Invalid canvas: '" + canvas + "'");
+          }
+        }else{
+          throw new Error("Invalid canvas: '" + canvas + "'");
+        }
+        return this;
+      }
+    },
+
+    draw: { wirttable: false, configurable: false, enumerable: false,
+      value: function(){
+        var context = this.canvas.getContext("2d");
+        context.fillStyle = Brick.COLORS[this.type];
+        context.fillRect(this.x,this.y,this.width,this.height);
+        context.beginPath();
+        context.strokeStyle = "#000000";
+        context.lineWidth = 2.5;
+        context.moveTo(this.x, this.y + this.height);
+        context.lineTo(this.x + this.width, this.y + this.height);
+        context.moveTo(this.x + this.width, this.y);
+        context.lineTo(this.x + this.width, this.y + this.height);
+        context.stroke();
       }
     }
   });

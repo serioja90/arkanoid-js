@@ -2,7 +2,7 @@
 * @Author: Groza Sergiu
 * @Date:   2014-04-18 10:50:42
 * @Last Modified by:   Groza Sergiu
-* @Last Modified time: 2014-05-20 03:08:50
+* @Last Modified time: 2014-05-21 02:37:42
 */
 
 (function(window,undefined){
@@ -14,6 +14,7 @@
     this.width = configs["width"] || 224;
     this.height = configs["height"] || 256;
     this.headerHeight = this.height / 100 * 8;
+    this.bricks = [];
     this.log_prefix = configs["log-prefix"] || "Game | ";
     this.verbosity = configs["verbosity"] || Arkanoid.Logger.DEBUG;
     this.level = configs["level"] || 1;
@@ -28,14 +29,23 @@
       value: function(){
         this.drawBackground(this.levelData.background);
         this.drawBorder();
+        this.generateBricks();
         return this;
+      }
+    },
+
+    drawBricks: { writtable: false, configurable: false, enumerable: false,
+      value: function(){
+        for(var i=0; i < this.bricks.length; i++){
+          this.bricks[i].draw();
+        }
       }
     },
 
     width: {
       get: function(){ return this._width; },
       set: function(width){
-        if(width && !isNaN(Number(width))){
+        if(!isNaN(Number(width))){
           this._width = width;
         }else{
           throw new Error("Invalid width: + '" + width + "'");
@@ -47,7 +57,7 @@
     height: {
       get: function(){ return this._height; },
       set: function(height){
-        if(height && !isNaN(Number(height))){
+        if(!isNaN(Number(height))){
           this._height = height;
         }else{
           throw new Error("Invalid height: + '" + height + "'");
@@ -61,7 +71,7 @@
       set: function(level){
         var temp;
         var found = false;
-        if(level && !isNaN(Number(level))){
+        if(!isNaN(Number(level))){
           this._level = Number(level);
           for(var i in Arkanoid.Levels){
             temp = Arkanoid.Levels[i];
@@ -141,6 +151,33 @@
       }
     },
 
+    generateBricks: { writtable: false, configurable: false, enumerable: false,
+      value: function(){
+        var row, brick;
+        var rows = this.levelData.bricks.length;
+        var brickWidth = Math.ceil((this.canvas.width-16) / this.levelData.bricks[0].length);
+        var brickHeight = Math.ceil(brickWidth / 2);
+        for(var i=0; i < rows; i++){
+          row = this.levelData.bricks[i].split("");
+          for(var j=0; j < row.length; j++){
+            if(row[j] != " "){
+              brick = new Arkanoid.Brick({
+                parent: this,
+                type: row[j],
+                level: this.level,
+                x: 8 + j * brickWidth,
+                y: this.headerHeight + i * brickHeight,
+                width: brickWidth,
+                height: brickHeight,
+                canvas: this.canvas
+              });
+              this.bricks.push(brick);
+            }
+          }
+        }
+      }
+    },
+
     drawBackground: { writtable: false, configurable: false, enumerable: false,
       value: function(src){
         var that = this;
@@ -160,6 +197,7 @@
               );
             }
           }
+          that.drawBricks();
         }
         img.src = src;
         return this;

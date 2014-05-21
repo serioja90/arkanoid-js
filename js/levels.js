@@ -21,6 +21,8 @@
       bricks: [
         "             ",
         "             ",
+        "             ",
+        "             ",
         "SSSSSSSSSSSSS",
         "RRRRRRRRRRRRR",
         "YYYYYYYYYYYYY",
