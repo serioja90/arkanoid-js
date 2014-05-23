@@ -2,7 +2,7 @@
 * @Author: Groza Sergiu
 * @Date:   2014-04-18 10:50:42
 * @Last Modified by:   Groza Sergiu
-* @Last Modified time: 2014-05-21 02:52:38
+* @Last Modified time: 2014-05-24 00:33:08
 */
 
 (function(window,undefined){
@@ -13,23 +13,49 @@
     this.parent = configs["parent"];
     this.width = configs["width"] || 224;
     this.height = configs["height"] || 256;
-    this.headerHeight = this.height / 100 * 8;
+    this.headerHeight = 0;
     this.bricks = [];
     this.log_prefix = configs["log-prefix"] || "Game | ";
     this.verbosity = configs["verbosity"] || Arkanoid.Logger.DEBUG;
-    this.level = configs["level"] || 1;
     this.canvas = configs["canvas"];
-    this.render();
+    this.level = configs["level"] || 1;
+    this.init();
   };
 
   Game.prototype = Object.create(Arkanoid.AbstractLogger);
   Object.defineProperties(Game.prototype,{
-    constructor: Game,
-    render: { writtable: false, configurable: false, enumerable: false,
+    init: { writtable: false, configurable: false, enumerable: false,
       value: function(){
-        this.drawBackground(this.levelData.background);
-        this.drawBorder();
+        this.border = new Arkanoid.Border({
+          "parent": this,
+          "verbosity": this.verbosity,
+          "margin-top": this.headerHeight,
+          "canvas": this.canvas,
+          "left-corner": "#corner-left",
+          "right-corner": "#corner-right",
+          "horizontal-border": "#horizontal-border",
+          "vertical-border": "#vertical-border"
+        });
         this.generateBricks();
+        this.draw();
+        return this;
+      }
+    },
+    draw: { writtable: false, configurable: false, enumerable: false,
+      value: function(){
+        for(var i=0; i < this.canvas.width / this.background.width; i++){
+          for(var j=0; j < this.canvas.height / this.background.height; j++ ){
+            this.context.drawImage(
+              this.background,
+              i * this.background.width,
+              j * this.background.height + this.headerHeight,
+              this.background.width,
+              this.background.height
+            );
+          }
+        }
+        this.drawBricks();
+        this.border.draw();
         return this;
       }
     },
@@ -39,6 +65,18 @@
         for(var i=0; i < this.bricks.length; i++){
           this.bricks[i].draw();
         }
+      }
+    },
+
+    border: {
+      get: function(){ return this._border; },
+      set: function(border){
+        if(border && typeof(border) === "object"){
+          this._border = border;
+        }else{
+          throw new Error("Invalid border value: '" + border + "'");
+        }
+        return this;
       }
     },
 
@@ -144,6 +182,8 @@
       set: function(levelData){
         if(levelData && typeof(levelData) === "object"){
           this._levelData = levelData;
+          this.background = this.levelData.background;
+          this.init();
         }else{
           throw new Error("Invalid level data: '" + levelData + "'");
         }
@@ -155,7 +195,9 @@
       value: function(){
         var row, brick;
         var rows = this.levelData.bricks.length;
-        var brickWidth = Math.ceil((this.canvas.width-16) / this.levelData.bricks[0].length);
+        var brickWidth = Math.ceil(
+          (this.canvas.width - (this.border.verticalBorder.width * 2)) / this.levelData.bricks[0].length
+        );
         var brickHeight = Math.ceil(brickWidth / 2);
         this.bricks = [];
         for(var i=0; i < rows; i++){
@@ -166,7 +208,7 @@
                 parent: this,
                 type: row[j],
                 level: this.level,
-                x: 8 + j * brickWidth,
+                x: this.border.verticalBorder.width + j * brickWidth,
                 y: this.headerHeight + i * brickHeight,
                 width: brickWidth,
                 height: brickHeight,
@@ -179,93 +221,16 @@
       }
     },
 
-    drawBackground: { writtable: false, configurable: false, enumerable: false,
-      value: function(src){
+    background: {
+      get: function(){ return this._background; },
+      set: function(background){
         var that = this;
-        if(!src){
-          throw new Error("Invalid image source: '" + src + "'");
+        var image = $(background)[0];
+        if(image){
+          this._background = image;
+        }else{
+          throw new Error("Invalid backround value: '" + backround + "'");
         }
-        var img = new Image();
-        img.onload = function(){
-          for(var i=0; i < that.canvas.width / img.width; i++){
-            for(var j=0; j < that.canvas.height / img.height; j++ ){
-              that.context.drawImage(
-                img,
-                i*img.width,
-                j*img.height + that.headerHeight,
-                img.width,
-                img.height
-              );
-            }
-          }
-          that.drawBricks();
-        }
-        img.src = src;
-        return this;
-      }
-    },
-
-    drawBorder: { writtable: false, configurable: false, enumerable: false,
-      value: function(){
-        var that = this;
-        var leftCorner = new Image();
-        var rightCorner = new Image();
-        var tube = new Image();
-        var leftCorner = new Image();
-        var vertical = new Image();
-        leftCorner.onload = function(){
-          that.context.drawImage(
-            leftCorner,
-            0,
-            that.headerHeight - leftCorner.height/2,
-            leftCorner.width,
-            leftCorner.height
-          );
-
-          rightCorner.onload = function(){
-            that.context.drawImage(
-              rightCorner,
-              that.canvas.width - rightCorner.width,
-              that.headerHeight - rightCorner.height/2,
-              rightCorner.width,
-              rightCorner.height
-            );
-
-            tube.onload = function(){
-              that.context.drawImage(
-                tube,
-                leftCorner.width,
-                that.headerHeight - tube.height/2,
-                that.canvas.width - rightCorner.width - leftCorner.width,
-                tube.height
-              );
-            };
-            tube.src = "img/horizontal-tube.png";
-          };
-          rightCorner.src = "img/corner-right.png";
-
-          vertical.onload = function(){
-            var base = that.headerHeight + leftCorner.height / 2;
-            for(var i = 0; i < (that.canvas.height - base) / vertical.height; i++){
-              that.context.drawImage(
-                vertical,
-                0,
-                i * vertical.height + base,
-                vertical.width,
-                vertical.height
-              );
-              that.context.drawImage(
-                vertical,
-                that.canvas.width - vertical.width,
-                i * vertical.height + base,
-                vertical.width,
-                vertical.height
-              );
-            }
-          };
-          vertical.src = "img/vertical-border.png";
-        };
-        leftCorner.src = "img/corner-left.png";
         return this;
       }
     }

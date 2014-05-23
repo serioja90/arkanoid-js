@@ -1,0 +1,14 @@
+/* 
+* @Author: Groza Sergiu
+* @Date:   2014-05-24 00:36:36
+* @Last Modified by:   Groza Sergiu
+* @Last Modified time: 2014-05-24 00:43:36
+*/
+
+canvas#game {
+  background: #000;
+  border-radius: 5px 5px 0px 0px;
+  border-top: 1px solid #000;
+  border-left: 2px solid #000;
+  border-right: 2px solid #000;
+}

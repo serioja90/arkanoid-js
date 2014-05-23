@@ -3,6 +3,7 @@
   <head>
     <title>Arkanoid Game</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/base.css" />
     <script src="js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/levels.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/utils.js" type="text/javascript" charset="utf-8"></script>
@@ -11,23 +12,27 @@
     <script src="js/ball.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/brick.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/vessel.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/border-piece.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/border.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/game.js" type="text/javascript" charset="utf-8"></script>
   </head>
-  <body>
+  <body onload="initGame();">
+    <div style="visibility: hidden; position: absolute;">
+      <img id="corner-left" src="img/border/corner-left.png" />
+      <img id="corner-right" src="img/border/corner-right.png" />
+      <img id="horizontal-border" src="img/border/horizontal-tube.png" />
+      <img id="vertical-border" src="img/border/vertical-border.png" />
+      <img id="background-hexagon" src="img/background/hexagon.png" />
+      <img id="background-grass" src="img/background/grass.png" />
+      <img id="background-tubes" src="img/background/tubes.png" />
+    </div>
     <center>
-      <canvas id="game" style="background: black;"></canvas>
+      <canvas id="game"></canvas>
     </center>
     <script type="text/javascript">
-      jQuery(function($){
-        $(document).ready(function(){
+      function initGame(){
           window.game = new Arkanoid.Game({canvas: "#game", width: 300, height: 420});
-        });
-      });
+      };
     </script>
-    <style type="text/css">
-      canvas {
-        background-repeat: repeat;
-      }
-    </style>
   </body>
 </html>

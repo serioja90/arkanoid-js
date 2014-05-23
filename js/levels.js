@@ -17,7 +17,7 @@
   Arkanoid.Levels = [
     {
       level: 1,
-      background: "img/hexagon.png",
+      background: "#background-hexagon",
       bricks: [
         "             ",
         "             ",
@@ -33,7 +33,7 @@
     },
     {
       level: 2,
-      background: "img/grass.png",
+      background: "#background-grass",
       bricks: [
         "             ",
         "             ",
@@ -50,6 +50,30 @@
         "WOCGRBVYWOC  ",
         "WOCGRBVYWOCG ",
         "SSSSSSSSSSSSR"
+      ]
+    },
+    {
+      level: 3,
+      background: "#background-tubes",
+      bricks: [
+        "             ",
+        "             ",
+        "             ",
+        "GGGGGGGGGGGGG",
+        "             ",
+        "WWWYYYYYYYYYY",
+        "             ",
+        "RRRRRRRRRRRRR",
+        "             ",
+        "GGGGGGGGGGWWW",
+        "             ",
+        "VVVVVVVVVVVVV",
+        "             ",
+        "BBBGGGGGGGGGG",
+        "             ",
+        "CCCCCCCCCCCCC",
+        "             ",
+        "GGGGGGGGGGCCC"
       ]
     }
   ];
