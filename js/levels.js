@@ -75,6 +75,30 @@
         "             ",
         "GGGGGGGGGGCCC"
       ]
+    },
+    {
+      level: 4,
+      background: "#background-alien",
+      bricks: [
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        " GCGSB YWOCG ",
+        " CGSBV WOCGS ",
+        " GSBVY OCGSB ",
+        " SBVYW CGSBV ",
+        " BVYWO GSBVY ",
+        " VYWOC SBVYW ",
+        " YWOCG BVYWO ",
+        " WOCGS VYWOC ",
+        " GCGSB YWOCG ",
+        " CGSBV WOCGS ",
+        " GSBVY OCGSB ",
+        " SBVYW CGSBV ",
+        " BVYWO GSBVY ",
+        " VYWOC SBVYW ",
+      ]
     }
   ];
 })(window,undefined);

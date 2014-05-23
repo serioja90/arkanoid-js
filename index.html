@@ -9,6 +9,7 @@
     <script src="js/utils.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/logger.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/abstract-logger.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/vector.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/ball.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/brick.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/vessel.js" type="text/javascript" charset="utf-8"></script>
@@ -25,13 +26,14 @@
       <img id="background-hexagon" src="img/background/hexagon.png" />
       <img id="background-grass" src="img/background/grass.png" />
       <img id="background-tubes" src="img/background/tubes.png" />
+      <img id="background-alien" src="img/background/alien.png" />
     </div>
     <center>
       <canvas id="game"></canvas>
     </center>
     <script type="text/javascript">
       function initGame(){
-          window.game = new Arkanoid.Game({canvas: "#game", width: 300, height: 420});
+          window.game = new Arkanoid.Game({canvas: "#game", width: 300, height: 340});
       };
     </script>
   </body>

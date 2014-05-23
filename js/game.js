@@ -2,7 +2,7 @@
 * @Author: Groza Sergiu
 * @Date:   2014-04-18 10:50:42
 * @Last Modified by:   Groza Sergiu
-* @Last Modified time: 2014-05-24 00:33:08
+* @Last Modified time: 2014-05-24 01:40:03
 */
 
 (function(window,undefined){
@@ -47,9 +47,9 @@
           for(var j=0; j < this.canvas.height / this.background.height; j++ ){
             this.context.drawImage(
               this.background,
-              i * this.background.width,
-              j * this.background.height + this.headerHeight,
-              this.background.width,
+              2 + i * this.background.width,
+              2 + j * this.background.height + this.headerHeight,
+              Math.min(this.background.width,this.canvas.width - i * this.background.width - 4),
               this.background.height
             );
           }
@@ -195,10 +195,8 @@
       value: function(){
         var row, brick;
         var rows = this.levelData.bricks.length;
-        var brickWidth = Math.ceil(
-          (this.canvas.width - (this.border.verticalBorder.width * 2)) / this.levelData.bricks[0].length
-        );
-        var brickHeight = Math.ceil(brickWidth / 2);
+        var brickWidth = (this.canvas.width - (this.border.verticalBorder.width * 2)) / this.levelData.bricks[0].length;
+        var brickHeight = brickWidth / 2;
         this.bricks = [];
         for(var i=0; i < rows; i++){
           row = this.levelData.bricks[i].split("");

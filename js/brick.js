@@ -2,7 +2,7 @@
 * @Author: Groza Sergiu
 * @Date:   2014-04-18 11:03:16
 * @Last Modified by:   Groza Sergiu
-* @Last Modified time: 2014-05-21 02:43:19
+* @Last Modified time: 2014-05-24 01:15:05
 */
 
 (function(window,undefined){
@@ -13,8 +13,11 @@
     this.parent = configs["parent"];
     this.log_prefix = configs["log-prefix"] || "Brick | ";
     this.verbosity = configs["verbosity"] || Arkanoid.Logger.DEBUG;
-    this.x = configs["x"] || 0;
-    this.y = configs["y"] || 0;
+    this.position = new Arkanoid.Vector({
+      parent: this,
+      x: configs["x"],
+      y: configs["y"]
+    });
     this.width = configs["width"] || 32;
     this.height = configs["height"] || 16;
     this.type = configs["type"];
@@ -116,25 +119,13 @@
       }
     },
 
-    x: {
-      get: function(){ return this._x; },
-      set: function(x){
-        if(!isNaN(Number(x))){
-          this._x = Math.ceil(x);
+    position: {
+      get: function(){ return this._position; },
+      set: function(position){
+        if(position && Arkanoid.Vector.prototype.isPrototypeOf(position)){
+          this._position = position;
         }else{
-          throw new Error("Invalid x: '" + x + "'");
-        }
-        return this;
-      }
-    },
-
-    y: {
-      get: function(){ return this._y; },
-      set: function(y){
-        if(!isNaN(Number(y))){
-          this._y = Math.ceil(y);
-        }else{
-          throw new Error("Invalid y: '" + y + "'");
+          throw new Error("Invalid position: '" + position + "'");
         }
         return this;
       }
@@ -191,14 +182,14 @@
       value: function(){
         var context = this.canvas.getContext("2d");
         context.fillStyle = Brick.COLORS[this.type];
-        context.fillRect(this.x,this.y,this.width,this.height);
+        context.fillRect(this.position.x,this.position.y,this.width,this.height);
         context.beginPath();
         context.strokeStyle = "#000000";
         context.lineWidth = 2.5;
-        context.moveTo(this.x, this.y + this.height);
-        context.lineTo(this.x + this.width, this.y + this.height);
-        context.moveTo(this.x + this.width, this.y);
-        context.lineTo(this.x + this.width, this.y + this.height);
+        context.moveTo(this.position.x, this.position.y + this.height);
+        context.lineTo(this.position.x + this.width, this.position.y + this.height);
+        context.moveTo(this.position.x + this.width, this.position.y);
+        context.lineTo(this.position.x + this.width, this.position.y + this.height);
         context.stroke();
       }
     }
