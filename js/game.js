@@ -2,7 +2,7 @@
 * @Author: Groza Sergiu
 * @Date:   2014-04-18 10:50:42
 * @Last Modified by:   Groza Sergiu
-* @Last Modified time: 2014-05-24 01:40:03
+* @Last Modified time: 2014-05-24 02:30:50
 */
 
 (function(window,undefined){
@@ -26,6 +26,7 @@
   Object.defineProperties(Game.prototype,{
     init: { writtable: false, configurable: false, enumerable: false,
       value: function(){
+        var that = this;
         this.border = new Arkanoid.Border({
           "parent": this,
           "verbosity": this.verbosity,
@@ -37,7 +38,16 @@
           "vertical-border": "#vertical-border"
         });
         this.generateBricks();
-        this.draw();
+        this.vaus = new Arkanoid.Vaus({
+          "parent": this,
+          "canvas": this.canvas,
+          "image": "#vaus-normal",
+          "x": this.canvas.width/2,
+          "y": this.canvas.height - (this.canvas.height/100 * 7)
+        });
+        setInterval(function(){
+          that.draw();
+        },20);
         return this;
       }
     },
@@ -55,6 +65,7 @@
           }
         }
         this.drawBricks();
+        this.vaus.draw();
         this.border.draw();
         return this;
       }
@@ -228,6 +239,18 @@
           this._background = image;
         }else{
           throw new Error("Invalid backround value: '" + backround + "'");
+        }
+        return this;
+      }
+    },
+
+    vaus: {
+      get: function(){ return this._vaus; },
+      set: function(vaus){
+        if(vaus && Arkanoid.Vaus.prototype.isPrototypeOf(vaus)){
+          this._vaus = vaus;
+        }else{
+          throw new Error("Invalid vaus: '" + vaus + "'");
         }
         return this;
       }

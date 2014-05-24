@@ -2,7 +2,7 @@
 * @Author: Groza Sergiu
 * @Date:   2014-04-18 11:03:16
 * @Last Modified by:   Groza Sergiu
-* @Last Modified time: 2014-05-24 01:15:05
+* @Last Modified time: 2014-05-24 01:57:35
 */
 
 (function(window,undefined){
@@ -13,11 +13,7 @@
     this.parent = configs["parent"];
     this.log_prefix = configs["log-prefix"] || "Brick | ";
     this.verbosity = configs["verbosity"] || Arkanoid.Logger.DEBUG;
-    this.position = new Arkanoid.Vector({
-      parent: this,
-      x: configs["x"],
-      y: configs["y"]
-    });
+    this.position = new Arkanoid.Vector({ parent: this, x: configs["x"], y: configs["y"] });
     this.width = configs["width"] || 32;
     this.height = configs["height"] || 16;
     this.type = configs["type"];
